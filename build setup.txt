@@ -1,0 +1,35 @@
+System Requirements:
+-ANT 1.9.3 or higher
+-Eclipse Platform 4.3 (Kepler) or higher
+-Eclipse EGit 1.3 or higher
+-Eclipse Java Development Tools 3.8 or higher
+-Git 1.8.3.2 or higher (must be available on the command-line, which is not the default on Windows)
+-Java 1.6 (any sub-version)
+-Java 1.7 (any sub-version)
+
+To configure the ANT build:
+1.)Open a command-line shell, with the root of the git repository set as its working directory.
+2.)Enter the command "git config user.name '$YOURNAME'", omitting " characters and substituting your own full name for $YOURNAME.
+3.)Enter the command "git config user.email $YOURMAIL", omitting " characters and substituting your own e-mail address for $YOURMAIL.
+
+To configure the development environment, first configure the ANT build and then:
+1.)Start Eclipse with the root directory of the git repository as its workspace.
+2.)Click "Workbench".
+3.)Open the "File" > "Import..." wizard.
+4.)Navigate to "Git" > "Projects from Git" and click "Next >".
+5.)Select "Existing local repository" and click "Next >".
+6.)Click "Add...".
+7.)Enter the root directory of the git repository (or equivalently, the current Eclipse workspace directory) in the "Directory:" field and click "Finish".
+8.)Select the git repository you just added from the list and press "Next >".
+9.)Select "Import existing projects" and press "Next >".
+10.)Select all projects that appear, and press "Finish".
+11.)Open the "Window" > "Preferences" screen.
+12.)Navigate to "Java" > "Installed JREs" and click "Add..."
+13.)Select "Standard VM" and press "Next >".
+14.)Enter your Java 1.6 installation directory in the "JRE home:" field and click "Finish".
+15.)Repeat steps 12 through 14 for Java 1.7.
+16.)Click "OK".
+17.)Open the "Window" > "Preferences" screen.
+18.)Navigate to "Ant" > "Runtime" and click "Ant Home..."
+19.)Select your system's ANT installation directory, and press "OK".
+20.)Click "OK".

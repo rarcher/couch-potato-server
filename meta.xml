@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE project>
+<project name="Metadata" xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+    <!-- ================================================================== -->
+    <!--                               macros                               -->
+    <!-- ================================================================== -->
+
+    <macrodef name="signatureprompt" description="ask the user for specified cryptographic signature details">
+        <attribute
+            name="fileproperty"
+            default=""
+            description="name of a property in which to store the location of the cryptographic signature file" />
+        <attribute
+            name="filepassproperty"
+            default=""
+            description="name of a property in which to store the password of the cryptographic signature file" />
+        <attribute
+            name="fileformat"
+            description="cryptographic signature file format" />
+        <attribute
+            name="keyproperty"
+            default=""
+            description="name of a property in which to store the name of the cryptographic signature itself" />
+        <attribute
+            name="keypassproperty"
+            default=""
+            description="name of a property in which to store the password of the cryptographic signature itself" />
+        <attribute
+            name="signedfiledescription"
+            description="short phase describing the file or files to be cryptographically signed" />
+        <sequential>
+            <local name="file.needed" />
+            <condition property="file.needed">
+                <not>
+                    <or>
+                        <length string="@{fileproperty}" trim="yes" length="0" when="equal" />
+                        <isset property="@{fileproperty}" />
+                    </or>
+                </not>
+            </condition>
+            <local name="file.password.needed" />
+            <condition property="file.password.needed">
+                <not>
+                    <or>
+                        <length string="@{filepassproperty}" trim="yes" length="0" when="equal" />
+                        <isset property="@{filepassproperty}" />
+                    </or>
+                </not>
+            </condition>
+            <local name="signature.needed" />
+            <condition property="signature.needed">
+                <not>
+                    <or>
+                        <length string="@{keyproperty}" trim="yes" length="0" when="equal" />
+                        <isset property="@{keyproperty}" />
+                    </or>
+                </not>
+            </condition>
+            <local name="signature.password.needed" />
+            <condition property="signature.password.needed">
+                <not>
+                    <or>
+                        <length string="@{keypassproperty}" trim="yes" length="0" when="equal" />
+                        <isset property="@{keypassproperty}" />
+                    </or>
+                </not>
+            </condition>
+            <local name="description.needed" />
+            <condition property="description.needed">
+                <or>
+                    <isset property="file.needed" />
+                    <isset property="file.password.needed" />
+                    <isset property="signature.needed" />
+                    <isset property="signature.password.needed" />
+                </or>
+            </condition>
+            <echo
+                level="info"
+                if:set="description.needed"
+                message="The @{signedfiledescription} must be cryptographically signed for distribution. Publishing a @{fileformat} file" />
+            <echo
+                level="info"
+                if:set="description.needed"
+                message="would undermine its ability to provide security, so no such file is included in the Git repository." />
+            <echo level="info"
+                if:set="description.needed"
+                message="You will need to supply your own to continue." />
+            <input message="Please enter the location of the @{fileformat} file:" addproperty="@{fileproperty}" if:set="file.needed" />
+            <input message="Please enter the @{fileformat} file password:" addproperty="@{filepassproperty}" if:set="file.password.needed" />
+            <input message="Please enter the name of the signature to use: " addproperty="@{keyproperty}" if:set="signature.needed" />
+            <input message="Please enter the signature password: " addproperty="@{keypassproperty}" if:set="signature.password.needed" />
+        </sequential>
+    </macrodef>
+
+    <macrodef name="findjvm" description="locate a JVM for the given Java version">
+        <attribute name="version" description="version of Java to locate" />
+        <sequential>
+            <local name="result.property" />
+            <local name="ant.java.matches" />
+            <property name="result.property" value="java.home.@{version}" />
+            <condition property="ant.java.matches">
+                <equals arg1="${ant.java.version}" arg2="@{version}" />
+            </condition>
+            <property name="${result.property}" value="${java.home}" if:set="ant.java.matches" />
+            <input message="Please enter the Java @{version} installation directory:" addproperty="${result.property}" />
+        </sequential>
+    </macrodef>
+
+    <!-- ================================================================== -->
+    <!--                               targets                              -->
+    <!-- ================================================================== -->
+
+    <target name="all" description="get all general metadata" depends="maintainer.name.get, maintainer.email.get, timestamp, version.get" />
+
+    <target name="maintainer.name.get" description="get the maintainer's name from git">
+        <exec executable="git" logError="true" outputproperty="maintainer.name" failonerror="true">
+            <arg value="config" />
+            <arg value="user.name" />
+        </exec>
+        <condition property="maintainer.name.error">
+            <or>
+                <not>
+                    <isset property="maintainer.name" />
+                </not>
+                <length string="${maintainer.name}" trim="yes" length="0" when="equal" />
+            </or>
+        </condition>
+        <fail message="The Git user name field is not set." if="${maintainer.name.error}" />
+        <echo message="The repository maintainer's name is ${maintainer.name}." level="info" />
+    </target>
+
+    <target name="maintainer.email.get" description="get the maintainer's e-mail address from git">
+        <exec executable="git" logError="true" outputproperty="maintainer.email" failonerror="true">
+            <arg value="config" />
+            <arg value="user.email" />
+        </exec>
+        <condition property="maintainer.email.error">
+            <or>
+                <not>
+                    <isset property="maintainer.email" />
+                </not>
+                <length string="${maintainer.email}" trim="yes" length="0" when="equal" />
+            </or>
+        </condition>
+        <fail message="The Git user e-mail address field is not set." if="${maintainer.email.error}" />
+        <echo message="The repository maintainer's current e-mail address is ${maintainer.email}." level="info" />
+    </target>
+
+    <target name="timestamp" description="fetch timestamp information from the system">
+        <tstamp>
+            <format property="TSTAMP" pattern="K:mm a" />
+            <format property="TODAY" pattern="MMMM d, yyyy" />
+        </tstamp>
+        <echo message="Current time is ${TSTAMP} on ${TODAY}." level="info" />
+    </target>
+
+    <target name="version.get" description="get the version from git">
+        <exec executable="git" logError="true" outputproperty="version" failonerror="true">
+            <arg value="describe" />
+            <arg value="--tags" />
+            <arg value="--always" />
+            <arg value="HEAD" />
+        </exec>
+        <condition property="version.error">
+            <or>
+                <not>
+                    <isset property="version" />
+                </not>
+                <length string="${version}" trim="yes" length="0" when="equal" />
+            </or>
+        </condition>
+        <fail message="Version is blank." if="${version.error}" />
+        <echo message="The version is currently ${version}." level="info" />
+    </target>
+
+</project>

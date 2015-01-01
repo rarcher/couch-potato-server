@@ -1,0 +1,10 @@
+bin/
+build/bin/
+build/config/
+build/lib/Communications.jar
+build/LICENSE.txt
+build/NOTICE.txt
+compile/
+compile.config/
+control.deb/
+dist/

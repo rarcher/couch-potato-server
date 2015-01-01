@@ -1,0 +1,3 @@
+# The installation directory is cross-platform, and is designed to be self-contained to simplify deployment.
+@package.name@ binary: extra-license-file
+@package.name@ binary: classpath-contains-relative-path

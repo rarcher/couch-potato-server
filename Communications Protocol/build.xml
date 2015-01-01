@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE project>
+<project name="Communications Protocol" default="jar.sign">
+
+    <include file="../meta.xml" as="meta" />
+
+    <!-- ================================================================== -->
+    <!--                            property data                           -->
+    <!-- ================================================================== -->
+
+    <!-- storage directory for library jars -->
+    <property name="lib" location="lib" />
+
+    <!-- build output directory for class files -->
+    <property name="compile.dir" location="compile" />
+
+    <!-- storage directory for Java source files -->
+    <property name="src" location="src" />
+
+    <!-- name of output jar file -->
+    <property name="jar.name" value="Communications.jar" />
+
+    <!-- complete path of output library jar -->
+    <property name="jar.path" location="${lib}/${jar.name}" />
+
+    <!-- ================================================================== -->
+    <!--                            build targets                           -->
+    <!-- ================================================================== -->
+
+    <target name="clean" description="delete all build outputs">
+        <delete file="${jar.path}" />
+        <delete dir="${compile.dir}" />
+    </target>
+
+    <target name="jar.sign" description="sign output jar file" depends="jar.create">
+        <signatureprompt
+            fileproperty="jar.signature.keystore"
+            filepassproperty="jar.signature.storepass"
+            fileformat="Java keystore"
+            keyproperty="jar.signature.alias"
+            keypassproperty="jar.signature.keypass"
+            signedfiledescription="jar file" />
+        <signjar
+            jar="${jar.path}"
+            keystore="${jar.signature.keystore}"
+            storepass="${jar.signature.storepass}"
+            alias="${jar.signature.alias}"
+            keypass="${jar.signature.keypass}" />
+    </target>
+
+    <target name="jar.create" description="create output jar file" depends="compile, meta.timestamp, meta.version.get">
+        <jar destfile="${jar.path}">
+            <fileset dir="${compile.dir}" />
+            <metainf file="../LICENSE.txt" />
+            <metainf file="../NOTICE.txt" />
+            <manifest>
+                <attribute name="Date-Built" value="${TODAY}" />
+                <attribute name="Version" value="${version}" />
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="compile" description="compile all Java source files">
+        <mkdir dir="${compile.dir}" />
+        <findjvm version="1.6" />
+        <javac
+            destdir="${compile.dir}"
+            target="1.6"
+            source="1.6"
+            includeAntRuntime="false"
+            createMissingPackageInfoClass="false">
+            <src path="${src}" />
+            <classpath>
+                <fileset dir="${lib}" includes="*.jar" excludes="${jar.name}" />
+            </classpath>
+            <bootclasspath>
+                <pathelement location="${java.home.1.6}/jre/lib/rt.jar" />
+                <pathelement location="${java.home.1.6}/lib/rt.jar" />
+            </bootclasspath>
+        </javac>
+    </target>
+
+</project>

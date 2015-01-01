@@ -1,0 +1,11 @@
+Package: @package.name@
+Version: @version@
+Section: misc
+Priority: optional
+Architecture: all
+Depends: default-jre (>= 2:1.7-51) | openjdk-7-jre
+Maintainer: @maintainer.name@ <@maintainer.email@>
+Description: Server for the @app.name@ Android app.
+ This package installs a server daemon that automatically launches during system
+ boot, and allows an Android phone to be used as an input device, via the
+ associated @app.name@ Android app.
