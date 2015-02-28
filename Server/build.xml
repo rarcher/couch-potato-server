@@ -2,13 +2,6 @@
 <!DOCTYPE project>
 <project name="Server" default="jar.create">
 
-    <!-- ================================================================== -->
-    <!--                   external buildfile information                   -->
-    <!-- ================================================================== -->
-
-    <!-- path to communications protocol build script -->
-    <property name="communications.build" location="../Communications Protocol/build.xml" />
-
     <include file="../meta.xml" as="meta" />
 
     <!-- ================================================================== -->
@@ -27,7 +20,7 @@
     <property name="install.linux.dir" location="/usr/share/${package.name}" />
 
     <!-- ================================================================== -->
-    <!-- storage and/or build output directories for various types of files -->
+    <!--       storage and/or build output locations for various files      -->
     <!-- ================================================================== -->
 
     <!-- distributable installation packages -->
@@ -44,6 +37,16 @@
 
     <!-- program libraries -->
     <property name="lib" location="${packaging}/lib" />
+
+    <!-- program libraries, as path -->
+    <path id="lib">
+        <fileset dir="${lib}" includes="*.jar" />
+    </path>
+
+    <!-- ant task libraries -->
+    <path id="lib.tasks">
+        <fileset dir="lib" includes="*.jar" />
+    </path>
 
     <!-- control directory for the .deb installation package -->
     <property name="control.deb" location="control.deb" />
@@ -63,12 +66,11 @@
     <!-- script and configuration template files -->
     <property name="src.config" location="src.config" />
 
-    <!-- ================================================================== -->
-    <!--           complete build output paths for specific files           -->
-    <!-- ================================================================== -->
-
     <!-- program's main executable jar -->
     <property name="jar.path" location="${bin}/Server.jar" />
+
+    <!-- program's main executable jar, relative to the root of the installation -->
+    <property name="jar.path.relative" location="${jar.path}" relative="true" basedir="${packaging}" />
 
     <!-- build's copy of the program change log -->
     <property name="changelog" location="${compile.config.dir}/changelog" />
@@ -79,26 +81,8 @@
     <!-- build's copy of the program copyright notice -->
     <property name="notice" location="${packaging}/NOTICE.txt" />
 
-    <!-- ================================================================== -->
-    <!--      relative paths to files within the installation directory     -->
-    <!-- ================================================================== -->
-
-    <!-- program's main executable jar -->
-    <property name="jar.path.relative" location="${jar.path}" relative="true" basedir="${packaging}" />
-
-    <!-- ================================================================== -->
-    <!--            classpaths to specific groups of library jars           -->
-    <!-- ================================================================== -->
-
-    <!-- runtime libraries -->
-    <path id="lib.runtime">
-        <fileset dir="${lib}" includes="*.jar" />
-    </path>
-
-    <!-- ant tasks -->
-    <path id="lib.tasks">
-        <fileset dir="lib" includes="*.jar" />
-    </path>
+    <!-- communications protocol build script -->
+    <property name="communications.build" location="../Communications Protocol/build.xml" />
 
     <!-- ================================================================== -->
     <!--                            build targets                           -->
@@ -217,7 +201,7 @@
         <copy file="${compile.config.dir}/logback.xml" todir="${config}" />
         <manifestclasspath property="jar.classpath" jarfile="${jar.path}">
             <classpath>
-                <path refid="lib.runtime" />
+                <path refid="lib" />
                 <pathelement path="${config}" />
             </classpath>
         </manifestclasspath>
@@ -256,7 +240,7 @@
             includeAntRuntime="false"
             createMissingPackageInfoClass="false">
             <src path="${src}" />
-            <classpath refid="lib.runtime" />
+            <classpath refid="lib" />
             <bootclasspath>
                 <pathelement location="${java.home.1.7}/jre/lib/rt.jar" />
                 <pathelement location="${java.home.1.7}/lib/rt.jar" />
