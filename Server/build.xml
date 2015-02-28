@@ -157,17 +157,9 @@
         </deb>
     </target>
 
-    <target
-        name="distribute.zip"
-        description="create .zip archive of the installation directory"
-        depends="license.insert, jar.sign">
+    <target name="distribute.zip" description="create .zip archive of the installation directory" depends="jar.sign">
         <mkdir dir="${distribution}" />
         <zip destfile="${distribution}/${package.name}.zip" basedir="${packaging}" />
-    </target>
-
-    <target name="license.insert" description="copy licensing information into the build">
-        <copy file="../LICENSE.txt" tofile="${license}" />
-        <copy file="../NOTICE.txt" tofile="${notice}" />
     </target>
 
     <target name="jar.sign" description="sign output jar files" depends="jar.create, communications.build.jar.create">
@@ -196,7 +188,7 @@
     <target
         name="jar.create"
         description="create executable jar file"
-        depends="compile, compile.config, communications.build.jar.create, meta.timestamp, meta.version.get">
+        depends="compile, compile.config, license.insert, communications.build.jar.create, meta.timestamp, meta.version.get">
         <mkdir dir="${bin}" />
         <copy file="${compile.config.dir}/logback.xml" todir="${config}" />
         <manifestclasspath property="jar.classpath" jarfile="${jar.path}">
@@ -216,6 +208,11 @@
                 <attribute name="Version" value="${version}" />
             </manifest>
         </jar>
+    </target>
+
+    <target name="license.insert" description="copy licensing information into the build">
+        <copy file="../LICENSE.txt" tofile="${license}" />
+        <copy file="../NOTICE.txt" tofile="${notice}" />
     </target>
 
     <target
