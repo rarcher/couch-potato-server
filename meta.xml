@@ -156,21 +156,44 @@
     </target>
 
     <target name="version.get" description="get the version from git">
-        <exec executable="git" logError="true" outputproperty="version" failonerror="true">
+        <local name="version.raw" />
+        <exec executable="git" logError="true" outputproperty="version.raw" failonerror="true">
             <arg value="describe" />
             <arg value="--tags" />
             <arg value="--always" />
             <arg value="HEAD" />
         </exec>
+        <local name="dirty.raw" />
+        <exec executable="git" logError="true" outputproperty="dirty.raw" failonerror="true">
+            <arg value="status" />
+            <arg value="--porcelain" />
+        </exec>
         <condition property="version.error">
             <or>
                 <not>
-                    <isset property="version" />
+                    <isset property="version.raw" />
                 </not>
-                <length string="${version}" trim="yes" length="0" when="equal" />
+                <length string="${version.raw}" trim="yes" length="0" when="equal" />
             </or>
         </condition>
+        <local name="dirty" />
+        <condition property="dirty">
+            <resourcecount when="greater" count="0">
+                <tokens>
+                    <concat>
+                        <filterchain>
+                            <tokenfilter>
+                                <linetokenizer />
+                            </tokenfilter>
+                        </filterchain>
+                        <propertyresource name="dirty.raw" />
+                    </concat>
+                </tokens>
+            </resourcecount>
+        </condition>
         <fail message="Version is blank." if="${version.error}" />
+        <property name="version" value="${version.raw}" unless:set="dirty" />
+        <property name="version" value="${version.raw}-dirty" if:set="dirty" />
         <echo message="The version is currently ${version}." level="info" />
     </target>
 
