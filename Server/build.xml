@@ -72,9 +72,6 @@
     <!-- program's main executable jar, relative to the root of the installation -->
     <property name="jar.path.relative" location="${jar.path}" relative="true" basedir="${packaging}" />
 
-    <!-- build's copy of the program change log -->
-    <property name="changelog" location="${compile.config.dir}/changelog" />
-
     <!-- build's copy of the program license -->
     <property name="license" location="${packaging}/LICENSE.txt" />
 
@@ -124,11 +121,6 @@
                 <propertyset negate="true" />
             </filterset>
         </copy>
-        <copy file="../CHANGELOG.txt" tofile="${changelog}" />
-        <exec executable="gzip">
-            <arg value="--best" />
-            <arg value="${changelog}" />
-        </exec>
         <taskdef name="deb" classname="org.vafer.jdeb.ant.DebAntTask" classpathref="lib.tasks" />
         <deb
             destfile="${distribution}/${package.name}.deb"
@@ -141,9 +133,6 @@
             </data>
             <data src="${compile.config.dir}/start-script.sh" dst="95${package.name}_launch" type="file" conffile="true">
                 <mapper type="perm" prefix="/etc/X11/Xsession.d" />
-            </data>
-            <data src="${changelog}.gz" dst="changelog.gz" type="file">
-                <mapper type="perm" prefix="/usr/share/doc/${package.name}" />
             </data>
             <data src="${notice}" dst="copyright" type="file">
                 <mapper type="perm" prefix="/usr/share/doc/${package.name}" />

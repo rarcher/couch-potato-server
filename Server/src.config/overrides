@@ -1,3 +1,5 @@
 # The installation directory is cross-platform, and is designed to be self-contained to simplify deployment.
 @package.name@ binary: extra-license-file
 @package.name@ binary: classpath-contains-relative-path
+# Debian change log files are more trouble than they're worth.
+@package.name@ binary: debian-changelog-file-missing

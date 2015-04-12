@@ -1,5 +1,0 @@
-escapade-server (0.1.0) unstable; urgency=low
-
-  * Initial release.
-
- -- Ryan Archer <ryan.bradley.archer@gmail.com>  Wed, 31 Dec 2014 21:20:31 -0500
