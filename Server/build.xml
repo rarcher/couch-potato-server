@@ -16,9 +16,6 @@
         project.setProperty("package.name", project.getProperty("app.name").toLowerCase()+"-server");
     </script>
 
-    <!-- Linux installation directory -->
-    <property name="install.linux.dir" location="/usr/share/${package.name}" />
-
     <!-- ================================================================== -->
     <!--       storage and/or build output locations for various files      -->
     <!-- ================================================================== -->
@@ -69,9 +66,6 @@
     <!-- program's main executable jar -->
     <property name="jar.path" location="${bin}/Server.jar" />
 
-    <!-- program's main executable jar, relative to the root of the installation -->
-    <property name="jar.path.relative" location="${jar.path}" relative="true" basedir="${packaging}" />
-
     <!-- build's copy of the program license -->
     <property name="license" location="${packaging}/LICENSE.txt" />
 
@@ -80,6 +74,21 @@
 
     <!-- communications protocol build script -->
     <property name="communications.build" location="../Communications Protocol/build.xml" />
+
+    <!-- ================================================================== -->
+    <!--                platform-specific installation paths                -->
+    <!-- ================================================================== -->
+
+    <!-- Linux installation directory -->
+    <property name="install.linux.dir" value="/usr/share/${package.name}" />
+
+    <!-- program's main executable jar, relative to the root of the Linux installation directory -->
+    <pathconvert targetos="unix" property="jar.path.relative.linux">
+        <path>
+            <pathelement location="${jar.path}" />
+        </path>
+        <map from="${packaging}${file.separator}" to="" />
+    </pathconvert>
 
     <!-- ================================================================== -->
     <!--                            build targets                           -->
