@@ -3,6 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry excluding="**" kind="src" path="src.deb"/>
 	<classpathentry excluding="**" kind="src" path="src.config"/>
+	<classpathentry excluding="**" kind="src" path="src.msi"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Communications Protocol"/>
 	<classpathentry exported="true" kind="lib" path="build/lib/kryonet-2.21.jar"/>
 	<classpathentry exported="true" kind="lib" path="build/lib/kryo-2.20.jar"/>

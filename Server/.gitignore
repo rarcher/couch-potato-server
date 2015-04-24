@@ -7,4 +7,6 @@ build/NOTICE.txt
 compile/
 compile.config/
 control.deb/
+compile.msi/
+gen.msi/
 dist/

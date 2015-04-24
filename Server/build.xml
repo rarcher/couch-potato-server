@@ -4,6 +4,8 @@
 
     <include file="../meta.xml" as="meta" />
 
+    <property environment="environment" />
+
     <!-- ================================================================== -->
     <!--                          program metadata                          -->
     <!-- ================================================================== -->
@@ -11,10 +13,16 @@
     <!-- name of the associated Android app -->
     <property name="app.name" value="Escapade" />
 
+    <!-- name of the program being built -->
+    <property name="program.name" value="${app.name} ${ant.project.name}" />
+
     <!-- name for distributable installation packages, set using Javascript -->
     <script language="javascript">
         project.setProperty("package.name", project.getProperty("app.name").toLowerCase()+"-server");
     </script>
+
+    <!-- shorthand for the installation directory itself, within the context of a larger installation on a machine -->
+    <property name="core.name" value="Core" />
 
     <!-- ================================================================== -->
     <!--       storage and/or build output locations for various files      -->
@@ -54,6 +62,12 @@
     <!-- compiled script and configuration files -->
     <property name="compile.config.dir" location="compile.config" />
 
+    <!-- WiX object files -->
+    <property name="compile.msi.dir" location="compile.msi" />
+
+    <!-- generated WiX source files -->
+    <property name="gen.msi.dir" location="gen.msi" />
+
     <!-- Java source files -->
     <property name="src" location="src" />
 
@@ -62,6 +76,9 @@
 
     <!-- script and configuration template files -->
     <property name="src.config" location="src.config" />
+
+    <!-- WiX source template files -->
+    <property name="src.msi" location="src.msi" />
 
     <!-- program's main executable jar -->
     <property name="jar.path" location="${bin}/Server.jar" />
@@ -74,6 +91,9 @@
 
     <!-- communications protocol build script -->
     <property name="communications.build" location="../Communications Protocol/build.xml" />
+
+    <!-- WiX toolset executables -->
+    <property name="bin.wix" location="${environment.WIX}/bin" />
 
     <!-- ================================================================== -->
     <!--                platform-specific installation paths                -->
@@ -90,11 +110,36 @@
         <map from="${packaging}${file.separator}" to="" />
     </pathconvert>
 
+    <!-- program's main executable jar, relative to the root of the Windows installation directory -->
+    <pathconvert targetos="windows" property="jar.path.relative.windows">
+        <path>
+            <pathelement location="${jar.path}" />
+        </path>
+        <map from="${packaging}${file.separator}" to="" />
+    </pathconvert>
+
+    <!-- ================================================================== -->
+    <!--                       data-gathering targets                       -->
+    <!-- ================================================================== -->
+
+    <target
+        name="network.port.get"
+        description="read the default port number from Java code"
+        depends="communications.build.jar.create">
+        <script language="javascript" classpathref="lib">
+            var SettingsPackage=new JavaImporter(Packages.codes.soloware.escapade.settings);
+            with (SettingsPackage)
+            {
+                project.setNewProperty("Network.defaultPort", Network.defaultPort);
+            }
+        </script>
+    </target>
+
     <!-- ================================================================== -->
     <!--                            build targets                           -->
     <!-- ================================================================== -->
 
-    <target name="all" description="create all build outputs" depends="clean, distribute.deb, distribute.zip" />
+    <target name="all" description="create all build outputs" depends="clean, distribute.deb, distribute.msi, distribute.zip" />
 
     <target name="clean" description="delete all build outputs">
         <ant antfile="${communications.build}" inheritAll="false" useNativeBasedir="true">
@@ -111,6 +156,8 @@
         <delete dir="${control.deb}" />
         <delete dir="${compile.dir}" />
         <delete dir="${compile.config.dir}" />
+        <delete dir="${compile.msi.dir}" />
+        <delete dir="${gen.msi.dir}" />
     </target>
 
     <target
@@ -155,9 +202,55 @@
         </deb>
     </target>
 
+    <target name="distribute.msi" description="create .msi installer package" depends="compile.msi">
+        <mkdir dir="${distribution}" />
+        <exec executable="${bin.wix}/light.exe" failonerror="true">
+            <arg value="-b" />
+            <arg value="${packaging}" />
+            <arg value="-ext" />
+            <arg value="WixFirewallExtension" />
+            <arg value="-spdb" />
+            <arg value="-out" />
+            <arg value="${distribution}/${package.name}.msi" />
+            <arg value="${compile.msi.dir}/*.wixobj" />
+        </exec>
+    </target>
+
     <target name="distribute.zip" description="create .zip archive of the installation directory" depends="jar.sign">
         <mkdir dir="${distribution}" />
         <zip destfile="${distribution}/${package.name}.zip" basedir="${packaging}" />
+    </target>
+
+    <target name="compile.msi" description="compile WiX source files" depends="gen.msi">
+        <mkdir dir="${compile.msi.dir}" />
+        <exec executable="${bin.wix}/candle.exe" failonerror="true">
+            <arg value="-ext" />
+            <arg value="WixFirewallExtension" />
+            <arg value="-out" />
+            <arg value="${compile.msi.dir}/" />
+            <arg value="${gen.msi.dir}/*.wxs" />
+        </exec>
+    </target>
+
+    <target name="gen.msi" description="generate WiX source files" depends="jar.sign, network.port.get, meta.all">
+        <copy todir="${gen.msi.dir}">
+            <fileset dir="${src.msi}" />
+            <filterset>
+                <propertyset negate="true" />
+            </filterset>
+        </copy>
+        <exec executable="${bin.wix}/heat.exe" failonerror="true">
+            <arg value="dir" />
+            <arg value="${packaging}/" />
+            <arg value="-ag" />
+            <arg value="-cg" />
+            <arg value="${core.name}" />
+            <arg value="-dr" />
+            <arg value="INSTALLFOLDER" />
+            <arg value="-srd" />
+            <arg value="-out" />
+            <arg value="${gen.msi.dir}/${core.name}.wxs" />
+        </exec>
     </target>
 
     <target name="jar.sign" description="sign output jar files" depends="jar.create, communications.build.jar.create">

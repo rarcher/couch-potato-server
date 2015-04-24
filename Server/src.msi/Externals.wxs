@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:fire="http://schemas.microsoft.com/wix/FirewallExtension">
+
+    <Product
+        Id="*"
+        Name="@program.name@"
+        Language="1033"
+        Manufacturer="@maintainer.name@"
+        Version="@version.last@"
+        UpgradeCode="795ebaea-564e-48ca-89ca-5e1008560fc5">
+        <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+        <MajorUpgrade DowngradeErrorMessage="A newer version of @program.name@ is already installed." />
+        <MediaTemplate EmbedCab="yes" />
+        <Feature Id="@core.name@" Title="@core.name@" Level="1">
+            <ComponentGroupRef Id="@core.name@" />
+        </Feature>
+        <Feature Id="AutomaticStart" Title="Automatic Start" Level="1">
+            <ComponentRef Id="AutomaticStartImplementation" />
+        </Feature>
+        <Property Id="JAVA.VERSION">
+            <RegistrySearch
+                Id="JAVA.VERSION.KEY"
+                Root="HKLM"
+                Key="SOFTWARE\JavaSoft\Java Runtime Environment"
+                Name="CurrentVersion"
+                Type="raw" />
+        </Property>
+        <Condition
+            Message="Java is outdated or not installed. @program.name@ requires Java to run. Please download it from https://www.java.com and try again.">
+            Installed OR (JAVA.VERSION >= "1.7")
+        </Condition>
+        <InstallExecuteSequence>
+            <ScheduleReboot After="InstallFinalize" />
+        </InstallExecuteSequence>
+    </Product>
+
+    <Fragment>
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramFilesFolder">
+                <Directory Id="INSTALLFOLDER" Name="@program.name@" />
+            </Directory>
+            <Directory Id="StartupFolder">
+                <Component Id="AutomaticStartImplementation" Guid="*">
+                    <Shortcut
+                        Id="AutomaticStartShortcut"
+                        Name="@program.name@"
+                        Target="[INSTALLFOLDER]\@jar.path.relative.windows@" />
+                    <fire:FirewallException
+                        Id="TCPFirewallExeception"
+                        Name="@program.name@ TCP"
+                        Port="@Network.defaultPort@"
+                        Protocol="tcp"
+                        Scope="localSubnet" />
+                    <fire:FirewallException
+                        Id="UDPFirewallExeception"
+                        Name="@program.name@ UDP"
+                        Port="@Network.defaultPort@"
+                        Protocol="udp"
+                        Scope="localSubnet" />
+                    <RegistryValue
+                        Root="HKCU"
+                        Key="Software\@program.name@"
+                        Name="installed"
+                        Type="integer"
+                        Value="1"
+                        KeyPath="yes" />
+                </Component>
+            </Directory>
+        </Directory>
+    </Fragment>
+
+</Wix>

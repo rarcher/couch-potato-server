@@ -111,7 +111,7 @@
     <!--                               targets                              -->
     <!-- ================================================================== -->
 
-    <target name="all" description="get all general metadata" depends="maintainer.name.get, maintainer.email.get, timestamp, version.get" />
+    <target name="all" description="get all general metadata" depends="maintainer.name.get, maintainer.email.get, timestamp, version.get, version.last.get" />
 
     <target name="maintainer.name.get" description="get the maintainer's name from git">
         <exec executable="git" logError="true" outputproperty="maintainer.name" failonerror="true">
@@ -195,6 +195,26 @@
         <property name="version" value="${version.raw}" unless:set="dirty" />
         <property name="version" value="${version.raw}-dirty" if:set="dirty" />
         <echo message="The version is currently ${version}." level="info" />
+    </target>
+
+    <target name="version.last.get" description="get the most recent release version from git">
+        <exec executable="git" logError="true" outputproperty="version.last" failonerror="true">
+            <arg value="describe" />
+            <arg value="--tags" />
+            <arg value="--abbrev=0" />
+            <arg value="HEAD" />
+        </exec>
+        <local name="error" />
+        <condition property="error">
+            <or>
+                <not>
+                    <isset property="version.last" />
+                </not>
+                <length string="${version.last}" trim="yes" length="0" when="equal" />
+            </or>
+        </condition>
+        <fail message="Last release version is blank." if="${error}" />
+        <echo message="The version of the most recent release is ${version.last}." level="info" />
     </target>
 
 </project>

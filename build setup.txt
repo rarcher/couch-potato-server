@@ -6,6 +6,7 @@ System Requirements:
 -Git 1.8.3.2 or higher (must be available on the command-line, which is not the default on Windows)
 -Java Development Kit 1.6 (any sub-version)
 -Java Development Kit 1.7 (any sub-version)
+-WiX Toolset 3.9 or higher
 
 To configure the ANT build:
 1.)Open a command-line shell, with the root of the git repository set as its working directory.
