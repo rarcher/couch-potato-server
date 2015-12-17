@@ -17,17 +17,27 @@
         <Feature Id="AutomaticStart" Title="Automatic Start" Level="1">
             <ComponentRef Id="AutomaticStartImplementation" />
         </Feature>
-        <Property Id="JAVA.VERSION">
+        <Property Id="JAVA.VERSION.32BIT">
             <RegistrySearch
-                Id="JAVA.VERSION.KEY"
+                Id="JAVA.VERSION.KEY.32BIT"
                 Root="HKLM"
                 Key="SOFTWARE\JavaSoft\Java Runtime Environment"
                 Name="CurrentVersion"
-                Type="raw" />
+                Type="raw"
+                Win64="no" />
+        </Property>
+        <Property Id="JAVA.VERSION.64BIT">
+            <RegistrySearch
+                Id="JAVA.VERSION.KEY.64BIT"
+                Root="HKLM"
+                Key="SOFTWARE\JavaSoft\Java Runtime Environment"
+                Name="CurrentVersion"
+                Type="raw"
+                Win64="yes" />
         </Property>
         <Condition
             Message="Java is outdated or not installed. @program.name@ requires Java to run. Please download it from https://www.java.com and try again.">
-            Installed OR (JAVA.VERSION >= "1.7")
+            Installed OR (JAVA.VERSION.32BIT >= "1.7") OR (JAVA.VERSION.64BIT >= "1.7")
         </Condition>
         <InstallExecuteSequence>
             <ScheduleReboot After="InstallFinalize" />
