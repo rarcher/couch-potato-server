@@ -1,7 +1,7 @@
 bin/
 build/bin/
 build/config/
-build/lib/Communications.jar
+build/lib/Communications*.jar
 build/LICENSE.txt
 build/NOTICE.txt
 compile/

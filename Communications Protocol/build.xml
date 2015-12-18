@@ -17,18 +17,28 @@
     <!-- storage directory for Java source files -->
     <property name="src" location="src" />
 
-    <!-- name of output jar file -->
-    <property name="jar.name" value="Communications.jar" />
+    <!-- name of output jar file, omitting version information and file extension -->
+    <property name="jar.name.short" value="Communications" />
 
-    <!-- complete path of output library jar -->
-    <property name="jar.path" location="${lib}/${jar.name}" />
+    <!-- naming convention that output jar files follow across versions -->
+    <property name="jar.name.pattern" value="${jar.name.short}*.jar" />
+
+    <!-- ================================================================== -->
+    <!--                       data-gathering targets                       -->
+    <!-- ================================================================== -->
+
+    <target name="jar.path.get" description="generate the complete jar path" depends="meta.version.get">
+        <property name="jar.path" location="${lib}/${jar.name.short}-${version}.jar" />
+    </target>
 
     <!-- ================================================================== -->
     <!--                            build targets                           -->
     <!-- ================================================================== -->
 
     <target name="clean" description="delete all build outputs">
-        <delete file="${jar.path}" />
+        <delete verbose="true">
+            <fileset dir="${lib}" includes="${jar.name.pattern}" />
+        </delete>
         <delete dir="${compile.dir}" />
     </target>
 
@@ -48,7 +58,7 @@
             keypass="${jar.signature.keypass}" />
     </target>
 
-    <target name="jar.create" description="create output jar file" depends="compile, meta.timestamp, meta.version.get">
+    <target name="jar.create" description="create output jar file" depends="compile, jar.path.get, meta.timestamp, meta.version.get">
         <jar destfile="${jar.path}">
             <fileset dir="${compile.dir}" />
             <metainf file="../LICENSE.txt" />
@@ -71,7 +81,7 @@
             createMissingPackageInfoClass="false">
             <src path="${src}" />
             <classpath>
-                <fileset dir="${lib}" includes="*.jar" excludes="${jar.name}" />
+                <fileset dir="${lib}" includes="*.jar" excludes="${jar.name.pattern}" />
             </classpath>
             <bootclasspath>
                 <pathelement location="${java.home.1.6}/jre/lib/rt.jar" />
