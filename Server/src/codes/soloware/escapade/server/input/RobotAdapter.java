@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Ryan Archer
+ * Copyright 2014-2015 Ryan Archer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -102,6 +102,7 @@ public class RobotAdapter implements EventQueue
 		switch (key)
 		{
 			case backspace:				return KeyEvent.VK_BACK_SPACE;
+			case escape:				return KeyEvent.VK_ESCAPE;
 			case alt:					return KeyEvent.VK_ALT;
 			case ctrl:					return KeyEvent.VK_CONTROL;
 			case shift:					return KeyEvent.VK_SHIFT;

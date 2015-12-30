@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Ryan Archer
+ * Copyright 2014-2015 Ryan Archer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import codes.soloware.escapade.server.api.EventQueue;
 public enum NonCharacterKey implements Pressable
 {
 	backspace,
+	escape,
 
 	alt,
 	ctrl,
