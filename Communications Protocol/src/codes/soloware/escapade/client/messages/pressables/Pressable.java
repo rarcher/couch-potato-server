@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Ryan Archer
+ * Copyright 2014-2016 Ryan Archer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,38 +14,14 @@
  * limitations under the License.
  */
 package codes.soloware.escapade.client.messages.pressables;
-
-import java.io.Serializable;
-
-import codes.soloware.escapade.server.api.EventQueue;
 /**
- * An input device that can be pressed and released, such as a mouse button or keyboard key.
+ * Pre-rename version of {@link codes.soloware.couchpotato.client.messages.pressables.Pressable}. Retained for
+ * compatibility reasons.
+ *
+ * @deprecated		superseded by {@link codes.soloware.couchpotato.client.messages.pressables.Pressable}
  */
-public interface Pressable extends Serializable
+@Deprecated
+public interface Pressable extends codes.soloware.couchpotato.client.messages.pressables.Pressable
 {
-	/**
-	 * Generates a press of <code>this</code> in the given {@link EventQueue}.
-	 *
-	 * @param generateIn		{@link EventQueue} to generate a press event in
-	 */
-	public void press(EventQueue generateIn);
-	/**
-	 * Generates a release of <code>this</code> in the given {@link EventQueue}.
-	 *
-	 * @param generateIn		{@link EventQueue} to generate a release event in
-	 */
-	public void release(EventQueue generateIn);
-	/**
-	 * Returns an identifier for <code>this</code>.
-	 *
-	 * @return					identifier for <code>this</code>
-	 */
-	public String name();
-	/**
-	 * Returns the {@link #name} of <code>this</code>, along with the type of input device it is.
-	 *
-	 * @return					{@link #name} of <code>this</code>, along with the type of input device it is
-	 */
-	@Override
-	public String toString();
+	// all functionality is inherited from the newer version
 }

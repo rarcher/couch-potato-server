@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Ryan Archer
+ * Copyright 2014-2016 Ryan Archer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,16 +15,14 @@
  */
 package codes.soloware.escapade.client.messages.pressables;
 
-import codes.soloware.escapade.server.api.EventQueue;
+import codes.soloware.couchpotato.server.api.EventQueue;
 /**
- * <p>
- * A keyboard key that does not produce a character when pressed.
- * </p>
- * <p>
- * The constants that represent keyboard keys have entirely different values under Android and vanilla Java, and neither
- * platform makes the other's available at runtime. This class enables conversion between the two formats.
- * </p>
+ * Pre-rename version of {@link codes.soloware.couchpotato.client.messages.pressables.NonCharacterKey}. Retained for
+ * compatibility reasons.
+ *
+ * @deprecated		superseded by {@link codes.soloware.couchpotato.client.messages.pressables.NonCharacterKey}
  */
+@Deprecated
 public enum NonCharacterKey implements Pressable
 {
 	backspace,
@@ -65,13 +63,13 @@ public enum NonCharacterKey implements Pressable
 	@Override
 	public void press(final EventQueue generateIn)
 	{
-		generateIn.press(this);
+		generateIn.press(codes.soloware.couchpotato.client.messages.pressables.NonCharacterKey.valueOf(name()));
 	}
 
 	@Override
 	public void release(final EventQueue generateIn)
 	{
-		generateIn.release(this);
+		generateIn.release(codes.soloware.couchpotato.client.messages.pressables.NonCharacterKey.valueOf(name()));
 	}
 
 	@Override

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Ryan Archer
+ * Copyright 2014-2016 Ryan Archer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,20 +16,12 @@
 package codes.soloware.escapade.settings;
 
 import com.esotericsoftware.kryo.Kryo;
-
-import codes.soloware.escapade.client.messages.AdjustVolumeByPercentage;
-import codes.soloware.escapade.client.messages.MediaAccessControlAddressRequest;
-import codes.soloware.escapade.client.messages.MouseMovement;
-import codes.soloware.escapade.client.messages.PressableStateChange;
-import codes.soloware.escapade.client.messages.ScrollWheelRoll;
-import codes.soloware.escapade.client.messages.ToggleMute;
-import codes.soloware.escapade.client.messages.pressables.CharacterKey;
-import codes.soloware.escapade.client.messages.pressables.MouseButton;
-import codes.soloware.escapade.client.messages.pressables.NonCharacterKey;
-import codes.soloware.escapade.data.server.MediaAccessControlAddress;
 /**
- * Defines network-related configuration data that are shared between the client and server.
+ * Pre-rename version of {@link codes.soloware.couchpotato.settings.Network}. Retained for compatibility reasons.
+ *
+ * @deprecated		superseded by {@link codes.soloware.couchpotato.settings.Network}
  */
+@Deprecated
 public final class Network
 {
 	/**
@@ -52,17 +44,7 @@ public final class Network
 	 */
 	public static void registerMessages(final Kryo in)
 	{
-		in.register(CharacterKey.class);
-		in.register(NonCharacterKey.class);
-		in.register(MouseButton.class);
-		in.register(MouseMovement.class);
-		in.register(PressableStateChange.class);
-		in.register(ScrollWheelRoll.class);
-		in.register(AdjustVolumeByPercentage.class);
-		in.register(ToggleMute.class);
-		in.register(MediaAccessControlAddress.class);
-		in.register(MediaAccessControlAddressRequest.class);
-		in.register(byte[].class);
+		codes.soloware.couchpotato.settings.Network.registerMessages(in);
 	}
 	/**
 	 * This class should not be instantiated, ever.

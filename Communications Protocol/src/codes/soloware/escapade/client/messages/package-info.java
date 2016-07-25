@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Ryan Archer
+ * Copyright 2014-2016 Ryan Archer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,7 @@
  * limitations under the License.
  */
 /**
- * <p>
- * Contains concrete message objects that the client can send.
- * </p>
- * <p>
- * All classes in this package are designed to directly carry data over the wire, and the serialized form of each
- * defines a complete message. The sub-packages contain message components.
- * </p>
+ * Contains pre-rename versions of the message objects in {@link codes.soloware.couchpotato.client.messages}. All
+ * contents are deprecated, and are only retained for purposes of backwards compatibility.
  */
 package codes.soloware.escapade.client.messages;

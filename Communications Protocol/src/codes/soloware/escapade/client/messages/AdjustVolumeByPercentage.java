@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Ryan Archer
+ * Copyright 2014-2016 Ryan Archer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,15 @@
  */
 package codes.soloware.escapade.client.messages;
 
-import codes.soloware.escapade.server.api.VolumeControl;
+import codes.soloware.couchpotato.server.api.VolumeControl;
 import codes.soloware.escapade.server.api.VolumeSettingChange;
 /**
- * A {@link VolumeSettingChange} that adjusts the volume by a percentage of its maximum value.
+ * Pre-rename version of {@link codes.soloware.couchpotato.client.messages.AdjustVolumeByPercentage}. Retained for
+ * compatibility reasons.
+ *
+ * @deprecated		superseded by {@link codes.soloware.couchpotato.client.messages.AdjustVolumeByPercentage}
  */
+@Deprecated
 public class AdjustVolumeByPercentage implements VolumeSettingChange
 {
 	private static final long serialVersionUID=1L;

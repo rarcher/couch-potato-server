@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Ryan Archer
+ * Copyright 2014-2016 Ryan Archer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,13 @@
  * limitations under the License.
  */
 package codes.soloware.escapade.server.api;
-
-import java.io.Serializable;
 /**
- * A request for information about the server's operating environment. The server will automatically call
- * {@link #generateResponse} on any message object it receives that implements this interface, and will forward the
- * result back to the client. Combination of the Command and Abstract Factory patterns.
+ * Pre-rename version of {@link codes.soloware.couchpotato.server.api.Request}. Retained for compatibility reasons.
+ *
+ * @deprecated		superseded by {@link codes.soloware.couchpotato.server.api.Request}
  */
-public interface Request extends Serializable
+@Deprecated
+public interface Request extends codes.soloware.couchpotato.server.api.Request
 {
-	/**
-	 * Gathers the data requested by <code>this</code> and fabricates a response from it.
-	 *
-	 * @return		newly generated response, or <code>null</code> if no response is needed
-	 */
-	public Serializable generateResponse();
+	// all functionality is inherited from the newer version
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Ryan Archer
+ * Copyright 2014-2016 Ryan Archer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,14 @@
  * limitations under the License.
  */
 package codes.soloware.escapade.server.api;
-
-import java.io.Serializable;
 /**
- * A change to the native system's volume setting. Message objects that implement this interface will be automatically
- * {@link #implement}ed on a {@link VolumeControl} by the server.
+ * Pre-rename version of {@link codes.soloware.couchpotato.server.api.VolumeSettingChange}. Retained for compatibility
+ * reasons.
+ *
+ * @deprecated		superseded by {@link codes.soloware.couchpotato.server.api.VolumeSettingChange}
  */
-public interface VolumeSettingChange extends Serializable
+@Deprecated
+public interface VolumeSettingChange extends codes.soloware.couchpotato.server.api.VolumeSettingChange
 {
-	/**
-	 * Implements <code>this</code> on the given {@link VolumeControl}.
-	 *
-	 * @param on		{@link VolumeControl} to implement <code>this</code> on
-	 */
-	public void implement(VolumeControl on);
+	// all functionality is inherited from the newer version
 }

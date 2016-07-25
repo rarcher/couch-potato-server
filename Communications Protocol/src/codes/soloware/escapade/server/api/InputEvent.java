@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Ryan Archer
+ * Copyright 2014-2016 Ryan Archer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,13 @@
  * limitations under the License.
  */
 package codes.soloware.escapade.server.api;
-
-import java.io.Serializable;
 /**
- * A user input event. Message objects that implement this interface will be automatically {@link #enqueue}d into an
- * {@link EventQueue} by the server.
+ * Pre-rename version of {@link codes.soloware.couchpotato.server.api.InputEvent}. Retained for compatibility reasons.
+ *
+ * @deprecated		superseded by {@link codes.soloware.couchpotato.server.api.InputEvent}
  */
-public interface InputEvent extends Serializable
+@Deprecated
+public interface InputEvent extends codes.soloware.couchpotato.server.api.InputEvent
 {
-	/**
-	 * Adds <code>this</code> to the given {@link EventQueue}.
-	 *
-	 * @param addTo		{@link EventQueue} to add <code>this</code> to
-	 */
-	public void enqueue(EventQueue addTo);
+	// all functionality is inherited from the newer version
 }

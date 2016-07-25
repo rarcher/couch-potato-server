@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Ryan Archer
+ * Copyright 2014-2016 Ryan Archer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,16 @@
  */
 package codes.soloware.escapade.client.messages;
 
+import codes.soloware.couchpotato.server.api.EventQueue;
 import codes.soloware.escapade.client.messages.pressables.Pressable;
-import codes.soloware.escapade.server.api.EventQueue;
 import codes.soloware.escapade.server.api.InputEvent;
 /**
- * A change in the state of a {@link Pressable}. Can be either a press or a release.
+ * Pre-rename version of {@link codes.soloware.couchpotato.client.messages.PressableStateChange}. Retained for
+ * compatibility reasons.
+ *
+ * @deprecated		superseded by {@link codes.soloware.couchpotato.client.messages.PressableStateChange}
  */
+@Deprecated
 public class PressableStateChange implements InputEvent
 {
 	private static final long serialVersionUID=1L;

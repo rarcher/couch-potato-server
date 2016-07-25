@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Ryan Archer
+ * Copyright 2014-2016 Ryan Archer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 /**
- * Contains interfaces exposed to the client by the server.
+ * Contains pre-rename versions of the interfaces in {@link codes.soloware.couchpotato.server.api}. All contents are
+ * deprecated, and are only retained for purposes of backwards compatibility.
  */
 package codes.soloware.escapade.server.api;

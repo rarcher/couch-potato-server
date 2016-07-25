@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Ryan Archer
+ * Copyright 2014-2016 Ryan Archer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,9 +26,12 @@ import org.slf4j.LoggerFactory;
 import codes.soloware.escapade.data.server.MediaAccessControlAddress;
 import codes.soloware.escapade.server.api.Request;
 /**
- * A {@link Request} for the server's {@link MediaAccessControlAddress}. Or more specifically, a {@link Request} for the
- * {@link MediaAccessControlAddress} of the network interface associated with a given IP address.
+ * Pre-rename version of {@link codes.soloware.couchpotato.client.messages.MediaAccessControlAddressRequest}. Retained
+ * for compatibility reasons.
+ *
+ * @deprecated		superseded by {@link codes.soloware.couchpotato.client.messages.MediaAccessControlAddressRequest}
  */
+@Deprecated
 public class MediaAccessControlAddressRequest implements Request
 {
 	private static final Logger logger=LoggerFactory.getLogger(MediaAccessControlAddressRequest.class);

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Ryan Archer
+ * Copyright 2014-2016 Ryan Archer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,16 +15,14 @@
  */
 package codes.soloware.escapade.client.messages.pressables;
 
-import codes.soloware.escapade.server.api.EventQueue;
+import codes.soloware.couchpotato.server.api.EventQueue;
 /**
- * <p>
- * A mouse button.
- * </p>
- * <p>
- * The constants that represent mouse buttons have entirely different values under Android and vanilla Java, and neither
- * platform makes the other's available at runtime. This class enables conversion between the two formats.
- * </p>
+ * Pre-rename version of {@link codes.soloware.couchpotato.client.messages.pressables.MouseButton}. Retained for
+ * compatibility reasons.
+ *
+ * @deprecated		superseded by {@link codes.soloware.couchpotato.client.messages.pressables.MouseButton}
  */
+@Deprecated
 public enum MouseButton implements Pressable
 {
 	left,
@@ -34,13 +32,13 @@ public enum MouseButton implements Pressable
 	@Override
 	public void press(final EventQueue generateIn)
 	{
-		generateIn.press(this);
+		generateIn.press(codes.soloware.couchpotato.client.messages.pressables.MouseButton.valueOf(name()));
 	}
 
 	@Override
 	public void release(EventQueue generateIn)
 	{
-		generateIn.release(this);
+		generateIn.release(codes.soloware.couchpotato.client.messages.pressables.MouseButton.valueOf(name()));
 	}
 
 	@Override

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Ryan Archer
+ * Copyright 2014-2016 Ryan Archer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,11 @@ package codes.soloware.escapade.server.api;
 import codes.soloware.escapade.client.messages.pressables.MouseButton;
 import codes.soloware.escapade.client.messages.pressables.NonCharacterKey;
 /**
- * An access point to the native system's GUI event queue.
+ * Pre-rename version of {@link codes.soloware.couchpotato.server.api.EventQueue}. Retained for compatibility reasons.
+ *
+ * @deprecated		superseded by {@link codes.soloware.couchpotato.server.api.EventQueue}
  */
+@Deprecated
 public interface EventQueue
 {
 	/**

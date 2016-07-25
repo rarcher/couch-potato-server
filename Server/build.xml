@@ -11,14 +11,14 @@
     <!-- ================================================================== -->
 
     <!-- name of the associated Android app -->
-    <property name="app.name" value="Escapade" />
+    <property name="app.name" value="Couch Potato" />
 
     <!-- name of the program being built -->
     <property name="program.name" value="${app.name} ${ant.project.name}" />
 
     <!-- name for distributable installation packages, set using Javascript -->
     <script language="javascript">
-        project.setProperty("package.name", project.getProperty("app.name").toLowerCase()+"-server");
+        project.setProperty("package.name", project.getProperty("app.name").toLowerCase().replace(" ", "-")+"-server");
     </script>
 
     <!-- shorthand for the installation directory itself, within the context of a larger installation on a machine -->
@@ -127,7 +127,7 @@
         description="read the default port number from Java code"
         depends="communications.build.jar.create">
         <script language="javascript" classpathref="lib">
-            var SettingsPackage=new JavaImporter(Packages.codes.soloware.escapade.settings);
+            var SettingsPackage=new JavaImporter(Packages.codes.soloware.couchpotato.settings);
             with (SettingsPackage)
             {
                 project.setNewProperty("Network.defaultPort", Network.defaultPort);
@@ -295,7 +295,7 @@
             <manifest>
                 <attribute name="Date-Built" value="${TODAY}" />
                 <attribute name="Class-Path" value="${jar.classpath}" />
-                <attribute name="Main-Class" value="codes.soloware.escapade.server.Main" />
+                <attribute name="Main-Class" value="codes.soloware.couchpotato.server.Main" />
                 <attribute name="Version" value="${version}" />
             </manifest>
         </jar>

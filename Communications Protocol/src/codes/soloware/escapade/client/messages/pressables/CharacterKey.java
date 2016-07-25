@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Ryan Archer
+ * Copyright 2014-2016 Ryan Archer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,17 +18,14 @@ package codes.soloware.escapade.client.messages.pressables;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import codes.soloware.escapade.server.api.EventQueue;
+import codes.soloware.couchpotato.server.api.EventQueue;
 /**
- * <p>
- * A keyboard key that produces a character when pressed.
- * </p>
- * <p>
- * The constants that represent keyboard keys have entirely different values under Android and vanilla Java, and neither
- * platform makes the other's available at runtime. This class works around the problem by representing keys as
- * <code>char</code>s.
- * </p>
+ * Pre-rename version of {@link codes.soloware.couchpotato.client.messages.pressables.CharacterKey}. Retained for
+ * compatibility reasons.
+ *
+ * @deprecated		superseded by {@link codes.soloware.couchpotato.client.messages.pressables.CharacterKey}
  */
+@Deprecated
 public class CharacterKey implements Pressable
 {
 	private static final long serialVersionUID=1L;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Ryan Archer
+ * Copyright 2014-2016 Ryan Archer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 /**
- * Contains representations of data about the server.
+ * Contains pre-rename versions of the data storage objects in {@link codes.soloware.couchpotato.data.server}. All
+ * contents are deprecated, and are only retained for purposes of backwards compatibility.
  */
 package codes.soloware.escapade.data.server;
