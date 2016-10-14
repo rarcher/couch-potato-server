@@ -209,6 +209,7 @@
             <arg value="${packaging}" />
             <arg value="-ext" />
             <arg value="WixFirewallExtension" />
+            <arg value="-sice:ICE80" />
             <arg value="-spdb" />
             <arg value="-out" />
             <arg value="${distribution}/${package.name}.msi" />
