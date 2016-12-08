@@ -1,6 +1,8 @@
 # The installation directory is cross-platform, and is designed to be self-contained to simplify deployment.
 @package.name@ binary: extra-license-file
 @package.name@ binary: classpath-contains-relative-path
+# Debian's insistence on using shared local copies of license files is, frankly, stupid, and requires a lot of extra work to implement properly
+@package.name@ binary: copyright-should-refer-to-common-license-file-for-apache-2
 # Debian change log files are more trouble than they're worth.
 @package.name@ binary: debian-changelog-file-missing
 @package.name@ binary: changelog-file-missing-in-native-package
