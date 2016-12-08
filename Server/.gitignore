@@ -5,8 +5,8 @@ build/lib/Communications*.jar
 build/LICENSE.txt
 build/NOTICE.txt
 compile/
-compile.config/
 control.deb/
 compile.msi/
+gen.linux/
 gen.msi/
 dist/

@@ -59,11 +59,11 @@
     <!-- class files -->
     <property name="compile.dir" location="compile" />
 
-    <!-- compiled script and configuration files -->
-    <property name="compile.config.dir" location="compile.config" />
-
     <!-- WiX object files -->
     <property name="compile.msi.dir" location="compile.msi" />
+
+    <!-- generated Linux scripts and configuration files -->
+    <property name="gen.linux.dir" location="gen.linux" />
 
     <!-- generated WiX source files -->
     <property name="gen.msi.dir" location="gen.msi" />
@@ -74,8 +74,11 @@
     <!-- .deb control directory template files -->
     <property name="src.deb" location="src.deb" />
 
-    <!-- script and configuration template files -->
+    <!-- templates for cross-platform configuration files -->
     <property name="src.config" location="src.config" />
+
+    <!-- templates for Linux scripts and configuration files -->
+    <property name="src.linux" location="src.linux" />
 
     <!-- WiX source template files -->
     <property name="src.msi" location="src.msi" />
@@ -155,15 +158,15 @@
         <delete dir="${config}" />
         <delete dir="${control.deb}" />
         <delete dir="${compile.dir}" />
-        <delete dir="${compile.config.dir}" />
         <delete dir="${compile.msi.dir}" />
+        <delete dir="${gen.linux.dir}" />
         <delete dir="${gen.msi.dir}" />
     </target>
 
     <target
         name="distribute.deb"
         description="create .deb installer package"
-        depends="compile.config, license.insert, jar.sign, meta.all">
+        depends="gen.linux, license.insert, jar.sign, meta.all">
         <mkdir dir="${distribution}" />
         <signatureprompt
             fileproperty="deb.signature.keyring"
@@ -187,19 +190,28 @@
             <data src="${packaging}" type="directory">
                 <mapper type="perm" prefix="${install.linux.dir}" />
             </data>
-            <data src="${compile.config.dir}/start-script.sh" dst="95${package.name}_launch" type="file" conffile="true">
+            <data src="${gen.linux.dir}/start-script.sh" dst="95${package.name}_launch" type="file" conffile="true">
                 <mapper type="perm" prefix="/etc/X11/Xsession.d" />
             </data>
             <data src="${notice}" dst="copyright" type="file">
                 <mapper type="perm" prefix="/usr/share/doc/${package.name}" />
             </data>
-            <data src="${compile.config.dir}/overrides" dst="${package.name}" type="file">
+            <data src="${gen.linux.dir}/overrides" dst="${package.name}" type="file">
                 <mapper type="perm" prefix="/usr/share/lintian/overrides" />
             </data>
-            <data src="${compile.config.dir}/control" type="file">
+            <data src="${gen.linux.dir}/control" type="file">
                 <mapper type="perm" prefix="/usr/share/bug/${package.name}" />
             </data>
         </deb>
+    </target>
+
+    <target name="gen.linux" description="generate Linux scripts and configuration files" depends="meta.all">
+        <copy todir="${gen.linux.dir}">
+            <fileset dir="${src.linux}" />
+            <filterset>
+                <propertyset negate="true" />
+            </filterset>
+        </copy>
     </target>
 
     <target name="distribute.msi" description="create .msi installer package" depends="compile.msi">
@@ -280,9 +292,8 @@
     <target
         name="jar.create"
         description="create executable jar file"
-        depends="compile, compile.config, license.insert, communications.build.jar.create, meta.timestamp, meta.version.get">
+        depends="compile, gen.config, license.insert, communications.build.jar.create, meta.timestamp, meta.version.get">
         <mkdir dir="${bin}" />
-        <copy file="${compile.config.dir}/logback.xml" todir="${config}" />
         <manifestclasspath property="jar.classpath" jarfile="${jar.path}">
             <classpath>
                 <path refid="lib" />
@@ -307,11 +318,8 @@
         <copy file="../NOTICE.txt" tofile="${notice}" />
     </target>
 
-    <target
-        name="compile.config"
-        description="compile script and configuration files by inserting property values into them"
-        depends="meta.all">
-        <copy todir="${compile.config.dir}">
+    <target name="gen.config" description="generate cross-platform configuration files" depends="meta.all">
+        <copy todir="${config}">
             <fileset dir="${src.config}" />
             <filterset>
                 <propertyset negate="true" />

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry excluding="**" kind="src" path="src.linux"/>
 	<classpathentry excluding="**" kind="src" path="src.deb"/>
 	<classpathentry excluding="**" kind="src" path="src.config"/>
 	<classpathentry excluding="**" kind="src" path="src.msi"/>
