@@ -1,0 +1,13 @@
+*               text=auto
+
+*.classpath     text
+*.java          text diff=java
+*.launch        text
+*.prefs         text
+*.project       text
+*.sh            text eol=lf
+*.txt           text
+*.wxs           text
+*.xml           text
+
+*.jar           binary
