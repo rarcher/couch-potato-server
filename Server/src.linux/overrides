@@ -1,6 +1,8 @@
 # The installation directory is cross-platform, and is designed to be self-contained to simplify deployment.
 @package.name@ binary: extra-license-file
 @package.name@ binary: classpath-contains-relative-path
+# The post-install script contains commands that work if and only if they are actually needed.
+@package.name@ binary: maintainer-script-ignores-errors
 # Debian's insistence on using shared local copies of license files is, frankly, stupid, and requires a lot of extra work to implement properly
 @package.name@ binary: copyright-should-refer-to-common-license-file-for-apache-2
 # Debian change log files are more trouble than they're worth.

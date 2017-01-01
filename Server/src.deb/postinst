@@ -1,0 +1,8 @@
+#!/bin/sh
+#
+# Changes GNOME settings to prevent the mouse cursor from disappearing.
+#
+
+export DISPLAY=:0
+gsettings set org.gnome.settings-daemon.peripherals.touchpad disable-while-typing false 2> /dev/null
+gsettings set org.gnome.settings-daemon.plugins.cursor active false 2> /dev/null
