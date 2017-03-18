@@ -1,7 +1,9 @@
 *               text=auto
 
 *.classpath     text
+*.html          text
 *.java          text diff=java
+*.js            text
 *.launch        text
 *.prefs         text
 *.project       text
@@ -9,5 +11,6 @@
 *.txt           text
 *.wxs           text
 *.xml           text
+*.yml           text
 
 *.jar           binary
