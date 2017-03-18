@@ -1,8 +1,12 @@
 #!/bin/sh
 #
-# Changes GNOME settings to prevent the mouse cursor from disappearing.
+# Performs post-installation tasks for the @package.name@ package.
 #
 
+# change GNOME's settings (if present) to prevent the mouse cursor from disappearing
 export DISPLAY=:0
 gsettings set org.gnome.settings-daemon.peripherals.touchpad disable-while-typing false 2> /dev/null
 gsettings set org.gnome.settings-daemon.plugins.cursor active false 2> /dev/null
+
+# start the server daemon, as the user who initiated the install process
+su $SUDO_USER -c "java -jar @install.linux.dir@/@jar.path.relative.linux@ &"
