@@ -17,6 +17,9 @@
     <!-- storage directory for Java source files -->
     <property name="src" location="src" />
 
+    <!-- installation directory of the JDK to use for compiling Java 1.6 source code -->
+    <property name="java.home.1.6" location="${java.home}" />
+
     <!-- name of output jar file, omitting version information and file extension -->
     <property name="jar.name.short" value="Communications" />
 
@@ -72,7 +75,6 @@
 
     <target name="compile" description="compile all Java source files">
         <mkdir dir="${compile.dir}" />
-        <findjvm version="1.6" />
         <javac
             destdir="${compile.dir}"
             target="1.6"

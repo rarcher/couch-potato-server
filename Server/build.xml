@@ -95,6 +95,9 @@
     <!-- communications protocol build script -->
     <property name="communications.build" location="../Communications Protocol/build.xml" />
 
+    <!-- JDK to use for compiling Java 1.7 source code -->
+    <property name="java.home.1.7" location="${java.home}" />
+
     <!-- WiX toolset executables -->
     <property name="bin.wix" location="${environment.WIX}/bin" />
 
@@ -329,7 +332,6 @@
 
     <target name="compile" description="compile all Java source files" depends="communications.build.jar.create">
         <mkdir dir="${compile.dir}" />
-        <findjvm version="1.7" />
         <javac
             destdir="${compile.dir}"
             target="1.7"

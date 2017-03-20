@@ -93,20 +93,6 @@
         </sequential>
     </macrodef>
 
-    <macrodef name="findjvm" description="locate a JVM for the given Java version">
-        <attribute name="version" description="version of Java to locate" />
-        <sequential>
-            <local name="result.property" />
-            <local name="ant.java.matches" />
-            <property name="result.property" value="java.home.@{version}" />
-            <condition property="ant.java.matches">
-                <equals arg1="${ant.java.version}" arg2="@{version}" />
-            </condition>
-            <property name="${result.property}" value="${java.home}" if:set="ant.java.matches" />
-            <input message="Please enter the Java @{version} installation directory:" addproperty="${result.property}" />
-        </sequential>
-    </macrodef>
-
     <!-- ================================================================== -->
     <!--                               targets                              -->
     <!-- ================================================================== -->
