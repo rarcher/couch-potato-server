@@ -50,7 +50,6 @@ public final class Network
 	 *
 	 * @param in		serialization engine to register message classes in
 	 */
-	@SuppressWarnings("deprecation")
 	public static void registerMessages(final Kryo in)
 	{
 		in.register(CharacterKey.class);
@@ -64,18 +63,6 @@ public final class Network
 		in.register(MediaAccessControlAddress.class);
 		in.register(MediaAccessControlAddressRequest.class);
 		in.register(byte[].class);
-
-		// deprecated classes, included for compatibility reasons
-		in.register(codes.soloware.escapade.client.messages.pressables.CharacterKey.class);
-		in.register(codes.soloware.escapade.client.messages.pressables.NonCharacterKey.class);
-		in.register(codes.soloware.escapade.client.messages.pressables.MouseButton.class);
-		in.register(codes.soloware.escapade.client.messages.MouseMovement.class);
-		in.register(codes.soloware.escapade.client.messages.PressableStateChange.class);
-		in.register(codes.soloware.escapade.client.messages.ScrollWheelRoll.class);
-		in.register(codes.soloware.escapade.client.messages.AdjustVolumeByPercentage.class);
-		in.register(codes.soloware.escapade.client.messages.ToggleMute.class);
-		in.register(codes.soloware.escapade.data.server.MediaAccessControlAddress.class);
-		in.register(codes.soloware.escapade.client.messages.MediaAccessControlAddressRequest.class);
 	}
 	/**
 	 * This class should not be instantiated, ever.
