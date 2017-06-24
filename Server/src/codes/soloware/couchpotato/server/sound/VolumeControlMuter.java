@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 Ryan Archer
+ * Copyright 2014-2017 Ryan Archer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ public class VolumeControlMuter implements MuteControl
 	}
 
 	@Override
-	public boolean isMuted()
+	public final boolean isMuted()
 	{
 		return volume.getVolume()==volume.getMinimumVolume();
 	}
@@ -49,7 +49,7 @@ public class VolumeControlMuter implements MuteControl
 	@Override
 	public void unmute()
 	{
-		volume.setVolume(oldVolume);
-		volume.setVolume(volume.getMinimumVolume());
+		if (isMuted())
+			volume.setVolume(oldVolume);
 	}
 }

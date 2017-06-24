@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 Ryan Archer
+ * Copyright 2014-2017 Ryan Archer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,6 @@ public class ToggleMute implements MuteSettingChange
 	{
 		if (on.isMuted())
 			on.unmute();
-		else on.unmute();
+		else on.mute();
 	}
 }
