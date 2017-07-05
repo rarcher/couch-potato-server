@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 Ryan Archer
+ * Copyright 2014-2017 Ryan Archer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 package codes.soloware.couchpotato.server;
+
+import java.io.Serializable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +43,9 @@ public class RequestListener extends Listener
 		{
 			try
 			{
-				requester.sendTCP(((Request)received).generateResponse());
+				final Serializable response=((Request)received).generateResponse();
+				if (response!=null)
+					requester.sendTCP(response);
 			}
 			catch (final Exception error)
 			{

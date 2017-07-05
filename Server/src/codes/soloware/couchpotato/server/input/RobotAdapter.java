@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 Ryan Archer
+ * Copyright 2014-2017 Ryan Archer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
  */
 package codes.soloware.couchpotato.server.input;
 
-import java.awt.AWTException;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Robot;
@@ -32,9 +31,11 @@ public class RobotAdapter implements EventQueue
 {
 	private final Robot underlying;
 
-	public RobotAdapter() throws AWTException
+	public RobotAdapter(final Robot underlying)
 	{
-		underlying=new Robot();
+		if (underlying==null)
+			throw new NullPointerException("Given robot object is null.");
+		this.underlying=underlying;
 	}
 
 	@Override
@@ -47,7 +48,7 @@ public class RobotAdapter implements EventQueue
 	@Override
 	public void press(final NonCharacterKey pressed)
 	{
-		underlying.keyPress(toCode(pressed));
+		underlying.keyPress(toKeyEventCode(pressed));
 	}
 
 	@Override
@@ -59,13 +60,13 @@ public class RobotAdapter implements EventQueue
 	@Override
 	public void press(final MouseButton pressed)
 	{
-		underlying.mousePress(toCode(pressed));
+		underlying.mousePress(toInputEventCode(pressed));
 	}
 
 	@Override
 	public void release(final NonCharacterKey released)
 	{
-		underlying.keyRelease(toCode(released));
+		underlying.keyRelease(toKeyEventCode(released));
 	}
 
 	@Override
@@ -77,7 +78,7 @@ public class RobotAdapter implements EventQueue
 	@Override
 	public void release(final MouseButton released)
 	{
-		underlying.mouseRelease(toCode(released));
+		underlying.mouseRelease(toInputEventCode(released));
 	}
 
 	@Override
@@ -86,7 +87,7 @@ public class RobotAdapter implements EventQueue
 		underlying.mouseWheel(displacement);
 	}
 
-	private static int toCode(final MouseButton button)
+	public static int toInputEventCode(final MouseButton button)
 	{
 		switch (button)
 		{
@@ -97,7 +98,7 @@ public class RobotAdapter implements EventQueue
 		throw new RuntimeException("The "+button.toString()+" does not have a button code mapping.");
 	}
 
-	private static int toCode(final NonCharacterKey key)
+	public static int toKeyEventCode(final NonCharacterKey key)
 	{
 		switch (key)
 		{

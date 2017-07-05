@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 Ryan Archer
+ * Copyright 2014-2017 Ryan Archer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package codes.soloware.couchpotato.server;
 
 import java.awt.AWTException;
+import java.awt.Robot;
 import java.io.IOException;
 import java.net.BindException;
 
@@ -82,7 +83,8 @@ public class Main
 				logger.error("Encountered an unknown error while setting up the sound system controls.",
 						soundSystemError);
 			}
-			server.addListener(new InputEventListener(LoggedEventQueue.decorateIfLoggingEnabled(new RobotAdapter())));
+			server.addListener(
+					new InputEventListener(LoggedEventQueue.decorateIfLoggingEnabled(new RobotAdapter(new Robot()))));
 			server.bind(Network.defaultPort, Network.defaultPort);
 			logger.info("Server started on port {}.", new Integer(Network.defaultPort));
 			server.run();
